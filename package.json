@@ -1,0 +1,24 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Web project using modern Javascript(Babel and Webpack)",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandrohp88/forkify.git"
+  },
+  "keywords": [
+    "web",
+    "development",
+    "javascript"
+  ],
+  "author": "Sandro Herrera Pallares",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sandrohp88/forkify/issues"
+  },
+  "homepage": "https://github.com/sandrohp88/forkify#readme"
+}
