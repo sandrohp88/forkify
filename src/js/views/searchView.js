@@ -36,10 +36,42 @@ export const clearInput = () => {
 };
 export const clearRecipesList = () => {
   UIElements.recipesList.innerHTML = "";
+  UIElements.resulPages.innerHTML = "";
 };
-export const renderRecipes = recipes => {
-  recipes.forEach(element => {
+// Type can be prev or next
+const createButton = (page, type) => ` 
+<button class="btn-inline results__btn--${type}" data-goto=${
+  type === "next" ? page + 1 : page - 1
+}">
+    <svg class="search__icon">
+        <use href="img/icons.svg#icon-triangle-${
+          type === "next" ? "right" : "left"
+        }"></use>
+    </svg>
+    <span>Page ${type === "prev" ? page - 1 : page + 1}</span>
+</button>
+`;
+const renderButtons = (page, numberOfPages) => {
+  let button;
+  if (page === 1 && numberOfPages > 1) {
+    // Display only next button
+    button = createButton(page, "next");
+  } else if (page < numberOfPages) {
+    // Display both buttons
+    button = `${createButton(page, "next")}${createButton(page, "prev")}`;
+  } else if (page === numberOfPages && numberOfPages > 1) {
+    // Display only previous button
+    button = createButton(page, "prev");
+  }
+  UIElements.resulPages.insertAdjacentHTML("afterbegin", button);
+};
+export const renderRecipes = (recipes, page = 1, recipesPerPage = 10) => {
+  const start = (page - 1) * recipesPerPage;
+  const end = page * recipesPerPage;
+  const numberOfPages = Math.ceil(recipes.length / recipesPerPage);
+  recipes.slice(start, end).forEach(element => {
     // console.log(element);
     renderRecipe(element);
   });
+  renderButtons(page, numberOfPages);
 };

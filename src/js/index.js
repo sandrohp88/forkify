@@ -35,3 +35,12 @@ UIElements.searchForm.addEventListener("submit", event => {
   event.preventDefault();
   controlSearch();
 });
+
+UIElements.resulPages.addEventListener("click", event => {
+  const button = event.target.closest(".btn-inline");
+  if (button) {
+    const gotoPage = parseInt(button.dataset.goto);
+    searchView.clearRecipesList();
+    searchView.renderRecipes(state.search.recipes, gotoPage);
+  }
+});
