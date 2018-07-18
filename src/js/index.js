@@ -1,5 +1,5 @@
 import Search from "./models/Search";
-import { UIElements } from "./views/domObjects";
+import { UIElements, renderSpinner, removeSpinner } from "./views/domObjects";
 import * as searchView from "./views/searchView";
 
 /**
@@ -22,10 +22,12 @@ const controlSearch = async () => {
     searchView.clearInput();
     searchView.clearRecipesList();
     // 4- Search for recipes
+    renderSpinner(UIElements.result);
     await state.search.getResults();
 
     // 5- Render the UI
     // console.log(state.search.recipes);
+    removeSpinner();
     searchView.renderRecipes(state.search.recipes);
   }
 };
