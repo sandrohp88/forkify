@@ -3,7 +3,8 @@ export const UIElements = {
   searchForm: document.querySelector(".search"),
   recipesList: document.querySelector(".results__list"),
   result: document.querySelector(".results"),
-  resulPages: document.querySelector(".results__pages")
+  resultPages: document.querySelector(".results__pages"),
+  resultsLink: document.querySelector(".results__link"),
 };
 
 const domStrings = {

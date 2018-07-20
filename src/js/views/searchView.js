@@ -36,7 +36,7 @@ export const clearInput = () => {
 };
 export const clearRecipesList = () => {
   UIElements.recipesList.innerHTML = "";
-  UIElements.resulPages.innerHTML = "";
+  UIElements.resultPages.innerHTML = "";
 };
 // Type can be prev or next
 const createButton = (page, type) => ` 
@@ -63,7 +63,7 @@ const renderButtons = (page, numberOfPages) => {
     // Display only previous button
     button = createButton(page, "prev");
   }
-  UIElements.resulPages.insertAdjacentHTML("afterbegin", button);
+  UIElements.resultPages.insertAdjacentHTML("afterbegin", button);
 };
 export const renderRecipes = (recipes, page = 1, recipesPerPage = 10) => {
   const start = (page - 1) * recipesPerPage;
