@@ -1,7 +1,7 @@
-import Search from "./models/Search";
-import { UIElements, renderSpinner, removeSpinner } from "./views/domObjects";
-import * as searchView from "./views/searchView";
-import Recipe from "./models/Recipe";
+import Search from './models/Search';
+import { UIElements, renderSpinner, removeSpinner } from './views/domObjects';
+import * as searchView from './views/searchView';
+import Recipe from './models/Recipe';
 
 /**
  * Globlal state of the app
@@ -11,7 +11,9 @@ import Recipe from "./models/Recipe";
  * - Liked recipes
  */
 const state = {};
-
+/**
+ * Search controller
+ */
 const controlSearch = async () => {
   // 1- Get query from the view
   const query = searchView.getSearchInput(); // TODO
@@ -32,20 +34,40 @@ const controlSearch = async () => {
   }
 };
 
-UIElements.searchForm.addEventListener("submit", event => {
+UIElements.searchForm.addEventListener('submit', event => {
   event.preventDefault();
   controlSearch();
 });
 
-UIElements.resultPages.addEventListener("click", event => {
-  const button = event.target.closest(".btn-inline");
+UIElements.resultPages.addEventListener('click', event => {
+  const button = event.target.closest('.btn-inline');
   if (button) {
     const gotoPage = parseInt(button.dataset.goto);
     searchView.clearRecipesList();
     searchView.renderRecipes(state.search.recipes, gotoPage);
   }
 });
+const controlRecipe = async () => {
+  const recipeID = window.location.hash.replace('#', '');
+  if (recipeID) {
+    // Prepare UI for changes
+    // Create a new recipe Object
+    state.recipe = new Recipe(recipeID);
 
-const recipe = new Recipe("46956");
-console.log(recipe.id);
-recipe.getRecipe();
+    try {
+      // Get recipe data and parse ingredients
+      await state.recipe.getResults();
+      state.recipe.calculateTime();
+      state.recipe.calculateServings();
+    } catch (error) {
+      alert('Ooops something went wrong', error);
+    }
+
+    // render recipe
+    console.log(state.recipe);
+  }
+};
+
+['hashchange', 'load'].forEach(event =>
+  window.addEventListener(event, controlRecipe)
+);
