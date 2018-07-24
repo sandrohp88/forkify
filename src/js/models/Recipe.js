@@ -85,7 +85,7 @@ export default class Recipe {
 				objIngredient = {
 					count,
 					unit: arrayIngredient[unitIndex],
-					ingredient: arrayIngredient.slice(1).join(' ')
+					ingredient: arrayIngredient.slice(unitIndex + 1).join(' ')
 				};
 			} else if (parseInt(arrayIngredient[0])) {
 				// There is no unit but first element it's a number
@@ -102,9 +102,20 @@ export default class Recipe {
 					ingredient
 				};
 			}
-			console.log(objIngredient);
+			// console.log(objIngredient);
 			return objIngredient;
 		});
 		this.ingredients = newIngredients;
+	}
+
+	updateServings(type) {
+		// Servings
+		const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1;
+
+		// Ingredients
+		this.ingredients.forEach(ingredient => {
+			ingredient.count *= newServings / this.servings;
+		});
+		this.servings = newServings;
 	}
 }
