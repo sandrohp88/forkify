@@ -5,7 +5,8 @@ export const UIElements = {
 	result: document.querySelector('.results'),
 	resultPages: document.querySelector('.results__pages'),
 	resultsLink: document.querySelector('.results__link'),
-	recipe: document.querySelector('.recipe')
+	recipe: document.querySelector('.recipe'),
+	shoppingList: document.querySelector('.shopping__list')
 };
 
 const domStrings = {
