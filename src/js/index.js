@@ -100,8 +100,6 @@ const controlShoppingList = () => {
 /**
  * Favorites controller
  */
-state.favorites = new Favorites();
-// favoritesView.toggleFavoriteMenu(state.favorites.getNumbersOfLikes());
 
 const controlFavorite = () => {
 	if (!state.favorites) {
@@ -133,10 +131,9 @@ const controlFavorite = () => {
 		// Toggle like button
 		// Remove like from the UI list
 		favoritesView.deleteFavorite(currentId);
-		console.log(currentId);
 	}
 
-	// favoritesView.toggleFavoriteMenu(state.favorites.getNumbersOfLikes());
+	favoritesView.toggleFavoriteMenu(state.favorites.getNumbersOfLikes());
 };
 
 UIElements.searchForm.addEventListener('submit', event => {
@@ -151,6 +148,17 @@ UIElements.resultPages.addEventListener('click', event => {
 		searchView.clearRecipesList();
 		searchView.renderRecipes(state.search.recipes, gotoPage);
 	}
+});
+
+// Restore liked recipes on page load
+window.addEventListener('load', () => {
+	state.favorites = new Favorites();
+	// Restore favorites
+	state.favorites.readPersistenData();
+	// TODO Toggle like menu bar
+	favoritesView.toggleFavoriteMenu(state.favorites.getNumbersOfLikes());
+	// Render the existing likes
+	state.favorites.likes.forEach(like => favoritesView.renderFavorite(like));
 });
 
 // Handle delete and update shoppingList item event

@@ -22,12 +22,14 @@ const formatCount = count => {
 	if (count) {
 		// count = 2.5 --> 2 1/2
 		// count = 0.5 --> 1/2
+		count = Number.parseFloat(count).toFixed(2);
 		const [int, dec] = count
 			.toString()
 			.split('.')
 			.map(number => parseInt(number));
-		if (!dec) {
-			return count;
+
+		if (dec === 0) {
+			return int;
 		}
 		if (int === 0) {
 			const fr = new Fraction(count);

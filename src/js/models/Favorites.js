@@ -11,11 +11,14 @@ export default class Favorites {
 			author
 		};
 		this.likes.push(like);
-
+		// Persistent data in localStorage
+		this.persistData();
 		return like;
 	}
 	deleteFavorite(id) {
 		const index = this.likes.find(like => like.id === id);
+		// Persistent data in localStorage
+		this.persistData();
 		this.likes.splice(index, 1);
 	}
 
@@ -24,7 +27,19 @@ export default class Favorites {
 		return index !== undefined;
 	}
 
-	getNymbersOfLikes() {
+	getNumbersOfLikes() {
 		return this.likes.length;
+	}
+
+	persistData() {
+		localStorage.setItem('likes', JSON.stringify(this.likes));
+	}
+
+	readPersistenData() {
+		const storage = JSON.parse(localStorage.getItem('likes'));
+		if (storage) {
+			// Restore likes from localStorage
+			this.likes = storage;
+		}
 	}
 }
