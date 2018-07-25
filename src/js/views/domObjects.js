@@ -6,7 +6,9 @@ export const UIElements = {
 	resultPages: document.querySelector('.results__pages'),
 	resultsLink: document.querySelector('.results__link'),
 	recipe: document.querySelector('.recipe'),
-	shoppingList: document.querySelector('.shopping__list')
+	shoppingList: document.querySelector('.shopping__list'),
+	favoriteMenu: document.querySelector('.likes__field'),
+	favoriteList: document.querySelector('.likes__list')
 };
 
 const domStrings = {

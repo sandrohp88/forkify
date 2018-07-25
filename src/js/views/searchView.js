@@ -1,6 +1,6 @@
 import { UIElements } from './domObjects';
 export const getSearchInput = () => UIElements.searchInput.value;
-const limitRecipeTitle = (title, limit = 17) => {
+export const limitRecipeTitle = (title, limit = 17) => {
 	const titleWords = title.split(' ');
 	let newTitle = '';
 	titleWords.reduce((accumulator, currentTitle) => {
@@ -18,7 +18,7 @@ export const highlitSelectect = id => {
 		currentElement.classList.remove('results__link--active')
 	);
 	document
-		.querySelector(`a[href="#${id}"]`)
+		.querySelector(`.results__link[href="#${id}"]`)
 		.classList.add('results__link--active');
 };
 const renderRecipe = recipe => {

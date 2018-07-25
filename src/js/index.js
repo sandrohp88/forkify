@@ -1,10 +1,12 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import ShoppingList from './models/ShoppingList';
+import Favorites from './models/Favorites';
 import { UIElements, renderSpinner, removeSpinner } from './views/domObjects';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as shoppingView from './views/shoppingListView';
+import * as favoritesView from './views/favoritesView';
 
 /**
  * Globlal state of the app
@@ -65,7 +67,7 @@ const controlRecipe = async () => {
 		}
 
 		// render recipe
-		recipeView.renderRecipe(state.recipe);
+		recipeView.renderRecipe(state.recipe, state.favorites.isLiked(recipeID));
 
 		// console.log(state.recipe.ingredients);
 	}
@@ -95,6 +97,48 @@ const controlShoppingList = () => {
 	});
 };
 
+/**
+ * Favorites controller
+ */
+state.favorites = new Favorites();
+// favoritesView.toggleFavoriteMenu(state.favorites.getNumbersOfLikes());
+
+const controlFavorite = () => {
+	if (!state.favorites) {
+		state.favorites = new Favorites();
+	}
+	const currentId = state.recipe.id;
+
+	// User has not yet liked current recipe
+	if (!state.favorites.isLiked(currentId)) {
+		// Add like to the state
+		const newLike = state.favorites.addFavorite(
+			currentId,
+			state.recipe.title,
+			state.recipe.img,
+			state.recipe.author
+		);
+		// Toggle like buttom
+		favoritesView.toggleFavoriteBtn(true);
+
+		// Add to UI list
+		favoritesView.renderFavorite(newLike);
+
+		// User has liked current recipe
+	} else {
+		favoritesView.toggleFavoriteBtn(false);
+		// Remove like from the state
+		state.favorites.deleteFavorite(currentId);
+
+		// Toggle like button
+		// Remove like from the UI list
+		favoritesView.deleteFavorite(currentId);
+		console.log(currentId);
+	}
+
+	// favoritesView.toggleFavoriteMenu(state.favorites.getNumbersOfLikes());
+};
+
 UIElements.searchForm.addEventListener('submit', event => {
 	event.preventDefault();
 	controlSearch();
@@ -120,6 +164,7 @@ UIElements.shoppingList.addEventListener('click', event => {
 		shoppingView.deleteItem(id);
 		// Handle the count update
 	} else if (event.target.matches('.shopping__count-value')) {
+		// Add ingredients to shopping list
 		const val = parseFloat(event.target.value, 10);
 		state.shoppingList.updateCount(id, val);
 	}
@@ -140,5 +185,8 @@ UIElements.recipe.addEventListener('click', event => {
 		recipeView.updateServingsIngredient(state.recipe);
 	} else if (event.target.matches('.recipe__btn--add,.recipe__btn--add *')) {
 		controlShoppingList();
+	} else if (event.target.matches('.recipe__love, .recipe__love *')) {
+		// Favorite Controller
+		controlFavorite();
 	}
 });
